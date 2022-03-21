@@ -1,6 +1,12 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import Header from './components/Header';
 
+const rotateBgGradient = () => {
+  for (let i = 0; i <= 360; i++) {
+    setTimeout(300);
+  }
+}
 
 const AppWrapper = styled.div`
   width: 100%;
