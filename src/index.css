@@ -14,10 +14,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-height: -webkit-fill-available;
-  color: #fff;
+  color: var(--white);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+:root {
+  --red: #D31F2F;
+  --white: #FFFFFF;
+  --blue: #133367;
 }
