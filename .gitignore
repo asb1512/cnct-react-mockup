@@ -24,3 +24,6 @@ yarn-error.log*
 
 # internal dev notes
 notes.md
+
+# client images
+/src/images
