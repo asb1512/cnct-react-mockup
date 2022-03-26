@@ -8,6 +8,7 @@ const HeaderWrapper = styled.div`
   display: grid;
   grid-template-columns: 80% 20%;
   grid-template-rows: 100%;
+  opacity: 0.4;
 `;
 
 const HeaderLeft = styled.div`
