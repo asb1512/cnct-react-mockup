@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import Nav from './components/Nav';
 import Header from './components/Header';
 import Welcome from './components/Welcome';
 
@@ -14,12 +16,16 @@ const AppWrapper = styled.div`
   background: linear-gradient(313deg, rgba(211,31,47,1) 0%, rgba(19,51,103,1) 71%);
   animation: ${rotateBackground} 10s linear infinite;
   background-size: 200% 200%;
+  z-index: 0;
 `;
 
 function App() {
+  const [displayNav, toggleNav] = useState(false);
+
   return (
     <AppWrapper>
-      <Header />
+      <Header displayNav={displayNav} toggleNav={toggleNav} />
+      <Nav />
       <Welcome />
     </AppWrapper>
   );
