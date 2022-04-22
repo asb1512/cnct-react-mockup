@@ -1,5 +1,8 @@
-import styled, { keyframes } from 'styled-components';
-import cnctIcon from '../images/cnct-logo-white-icon.png';
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { useTrail, useSpring, animated } from 'react-spring';
+import leftWhite from '../images/cnct-left-icon-white.png';
+import rightWhite from '../images/cnct-right-icon-white.png';
 
 const WelcomeWrapper = styled.div`
   width: 100%;
@@ -9,63 +12,98 @@ const WelcomeWrapper = styled.div`
   grid-template-rows: 50% 50%;
 `;
 
-const fadeIn = keyframes`
-  0% {opacity: 0}
-  100% {opacity: 1}
-`;
-
-const Logo = styled.img`
-  grid-column: 1/2;
-  grid-row: 1/2;
-  justify-self: center;
-  align-self: end;
-  width: auto;
-  height: 45%;
-  margin-bottom: 0.4rem;
-  animation: ${fadeIn} 1.5s 1 ease-in;
-`;
-
-const MainText = styled.div`
+const BlurbWrapper = styled.div`
   grid-column: 1/2;
   grid-row: 2/3;
   justify-self: center;
-  align-self: start;
-  margin-top: 0.4rem;
-  text-align: center;
-  font-size: 7vw;
+  align-self: center;
+  display: block;
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 3rem;
 `;
 
-const loopText = keyframes`
-  0% {opacity: 0}
-  12.5% {opacity: 1}
-  25% {opacity: 0}
-  100% {opacity: 0}
-`;
-
-const TextOne = styled(MainText)`
-  animation: ${loopText} 12s ease-in-out infinite;
-`;
-
-const TextTwo = styled(MainText)`
-  animation: ${loopText} 12s ease-in-out infinite;
-`;
-
-const TextThree = styled(MainText)`
-  animation: ${loopText} 12s ease-in-out infinite;
-`;
-
-const TextFour = styled(MainText)`
-  animation: ${loopText} 12s ease-in-out infinite;
-`;
+const blurbData = [
+  'Grab coffees.',
+  'Find your network.',
+  'Stay in the know.',
+  'Attend events.',
+];
 
 const Welcome = () => {
+  const [on, toggle] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => toggle(true), 1000);
+  }, [])
+  
+
+  const springs = useTrail(4, {
+    to: {
+      opacity: on ? 1 : 0,
+      translateY: on ? 0 : -75,
+    },
+    delay: 500,
+    config: {
+      tension: 250,
+      duration: 600,
+    },
+  });
+
+  const leftHalfStye = useSpring({
+    translateX: on ? 0 : -250,
+    opacity: on ? 1 : 0,
+  });
+  const rightHalfStyle = useSpring({
+    translateX: on ? 0 : 250,
+    opacity: on ? 1 : 0,
+  });
+
   return (
     <WelcomeWrapper>
-      <Logo src={cnctIcon} />
-      <TextOne>Grab coffees.</TextOne>
-      <TextTwo>Find your network.</TextTwo>
-      <TextThree>Stay in the know.</TextThree>
-      <TextFour>Attend events.</TextFour>
+      
+      <animated.img 
+        src={leftWhite}
+        alt="CNCT"
+        style={{
+          ...leftHalfStye,
+          gridColumn: '1/2',
+          gridRow: '1/2',
+          justifySelf: 'center',
+          alignSelf: 'center',
+        }}
+        className='left-half'
+      />
+      <animated.img
+        src={rightWhite}
+        alt="CNCT"
+        style={{
+          ...rightHalfStyle,
+          gridColumn: '1/2',
+          gridRow: '1/2',
+          justifySelf: 'center',
+          alignSelf: 'center',
+        }}
+        className='right-half'
+      />
+      <BlurbWrapper>
+        {springs.map((animation, idx) => {
+          return (
+            <animated.div
+              key={idx}
+              style={{
+                ...animation,
+                justifySelf: 'center',
+                alignSelf: 'start',
+                width: 'auto',
+                margin: '1rem 0 1rem 1rem'
+              }}
+            >
+              {blurbData[idx]}
+            </animated.div>
+          )
+        })}
+      </BlurbWrapper>
     </WelcomeWrapper>
   )
 }
